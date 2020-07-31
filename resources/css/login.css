@@ -1,0 +1,36 @@
+@import url("global.css");
+.login-box {
+    background-color: rgba( 0, 0, 0, 0.5);
+    color: white;
+    width: 280px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-radius: 5px;
+
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.login-box h1 {
+    border-bottom: #fffff5a1 solid 6px;
+    padding-bottom: 15px;
+}
+
+.text-input {
+    margin-bottom: 10px;
+}
+.text-input input{
+    background: none;
+    border: none;
+}
+
+#submit-button {
+    width: 100%;
+    background: none;
+    color: white;
+    padding: 5px;
+    border:#fffff5a1 solid 2px;
+}

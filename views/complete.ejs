@@ -1,0 +1,7 @@
+<%- contentFor('contents') %>
+<%  if(list.length==0){ %>
+    <p>아직 달성한 목표가 없습니다.</p>
+<% }else{ %>
+<% for(let i=0; i<list.length; i++){ %>
+    <%= list[i].SUBJECT %>
+<% }} %>

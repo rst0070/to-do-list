@@ -1,0 +1,16 @@
+<%- contentFor("contents") %>
+<link rel="stylesheet" href="css/item-list.css"/>
+<script src="js/add-new-task.js"></script>
+<div>
+    <p id="addNewTask">+ 새로운 목표 만들기</p>
+</div>
+<% for(let i=0; i<list.length; i++){ %>
+    <div class="item">
+        <input type="checkbox" id="complete" />
+        <h1><%= list[i].SUBJECT %></h1>
+        <p><%= list[i].START_DATE %></p>
+        <p><%= list[i].END_DATE %></p>
+        <p><%= list[i].CONTENTS %></p>
+    </div>
+    
+<% } %>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <script src="https://kit.fontawesome.com/8b62767162.js" crossorigin="anonymous"></script>
+        <style>
+           
+            .main {
+                display: grid;
+                grid-template-columns: auto;
+            }
+            .navbar {
+                padding-top: 3px;
+                padding-bottom: 2px;
+                background-color: #fe0a;
+                width: 600px;
+                
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 0px;
+                margin-bottom: 20px;
+                
+                display: grid;
+                padding-bottom: 5px;
+                grid-template-columns: auto auto auto;
+            }
+            .navbar div{
+                width: 50px;
+                margin: auto;
+                display: grid;
+                
+                margin-bottom: 0px;
+                padding-bottom: 10px;
+                padding-top: 10px;
+                
+                border-bottom: solid 2px #fff;
+            }
+            .navbar div:hover {
+                border-bottom: solid 2px #000;;
+            }
+            .navbar i {
+                margin: auto;
+            }
+            .main div {
+                margin: auto auto 15px;
+            }
+            .post {
+                width: 400px;
+                background-color: #fff;
+                border-radius: 5px;
+                
+                padding-top: 3px;
+                padding-bottom: 3px;
+                
+                display: grid;
+                grid-template-columns: 50px 310px 40px;
+            }
+            .post i{
+                margin-top: 20px;
+                margin-bottom: 20px;
+                margin-left: 10px;
+                margin-right: 15px;
+                float: left;
+            }
+            
+            .post i:hover {
+                
+            }
+            /*
+            .post p:first-child {
+                float: left;
+            }*/
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            
+        </script>
+    </head>
+    <body>
+        <div class="navbar">
+            <div><i class="far fa-calendar-plus"></i></div>
+            <div><i class="far fa-calendar-check"></i></div>
+            <div><i class="far fa-comments"></i></div>
+        </div>
+        <div class="main">
+            <div><i class="fas fa-plus"></i></div>
+            <div class="post">
+                <i class="fas fa-circle-notch"></i>
+                <p>이산수학 마무리하기</p>
+                <i class="fas fa-pencil-ruler"></i>
+            </div>
+            <div class="post">
+                <i class="fas fa-circle-notch"></i>
+                <p>선형대수 책 읽기</p>
+                <i class="fas fa-pencil-ruler"></i>
+            </div>
+        </div>
+    </body>
+</html>

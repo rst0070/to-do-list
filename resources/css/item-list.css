@@ -1,0 +1,28 @@
+#navigation li:nth-child(2) {
+    border-bottom: 3px solid rgba(171, 236, 133, 0.788);
+}
+
+#addNewItem {
+    background-color: rgba( 0, 0, 0, 0.5);
+    padding-top: 1px;
+    padding-bottom: 1pxd;
+    margin-bottom: 1px;
+
+    border-radius: 5px;
+}
+
+.item {
+    padding-top: 1px;;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    background-color: rgba( 0, 0, 0, 0.5);
+
+    margin-bottom: 3px;
+    border-radius: 5px;
+}
+.item h1 {
+    float: left;
+}
+#complete {
+    float: left;
+}
