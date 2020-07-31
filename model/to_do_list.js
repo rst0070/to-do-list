@@ -1,9 +1,9 @@
-const connection = require('./db_connection.js');
+const db = require('./db_connection.js');
 
 async function get_last_task_num(group_id){
     var result;
     try{
-         result = await connection.execute("select LAST_TASK_NUM "+
+         result = await db.connection.execute("select LAST_TASK_NUM "+
         "from GROUP_LIST where GROUP_NAME = :group_id",[group_id, task_num]);
     }catch(err){
 
@@ -16,7 +16,7 @@ async function get_last_task_num(group_id){
 async function get_task_by_num(group_id, task_num){
     var result;
     try{
-        result =  await connection.execute("select TITLE "+
+        result =  await db.connection.execute("select TITLE "+
         "from TO_DO_LIST where GROUP_NAME = :group_id and TASK_NUM = :task_num and "+
         "COMPLETE = '"+'0'+"'",[group_id, task_num]);
 
@@ -39,7 +39,7 @@ async function get_tasks_by_scope(group_id, start_num, end_num){
     var result;
     try{
         if(start_num > end_num || start_num < 0) throw new Error("Invalid scope");
-        result = await connection.execute("select TITLE from TO_DO_LIST where ");
+        result = await db.connection.execute("select TITLE from TO_DO_LIST where ");
     }catch(err){
         console.log(err);
         result = null;

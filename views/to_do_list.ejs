@@ -1,16 +1,16 @@
 <%- contentFor("contents") %>
-<link rel="stylesheet" href="css/item-list.css"/>
+<link rel="stylesheet" href="css/to_do_list.css"/>
 <script src="js/add-new-task.js"></script>
 <div>
-    <p id="addNewTask">+ 새로운 목표 만들기</p>
+    <p id="add_new_task">+ 새로운 목표 만들기</p>
 </div>
-<% for(let i=0; i<list.length; i++){ %>
+
+<div id="popup_add_new_task">
+<p>hello</p>
+</div>
+<% for(let i=0; list != null && i<list.length; i++){ %>
     <div class="item">
         <input type="checkbox" id="complete" />
-        <h1><%= list[i].SUBJECT %></h1>
-        <p><%= list[i].START_DATE %></p>
-        <p><%= list[i].END_DATE %></p>
-        <p><%= list[i].CONTENTS %></p>
+        <h1><%= list[i].TITLE %></h1>
     </div>
-    
 <% } %>

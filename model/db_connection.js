@@ -9,10 +9,19 @@ const config = {
 }
 
 var connection;
-try{
-    connection  = await oracledb.getConnection(config);
-}catch(err){
-    console.log('!DB connection ERROR! must be restart', err);
+async function make_connection(){
+    try{
+        connection  = await oracledb.getConnection(config);
+        console.log(connection);
+    }catch(err){
+        console.log('!DB connection ERROR! must be restart', err);
+    }finally{
+        exports.connection = connection;
+        return new Promise(function(resolve, reject){
+            resolve();
+        });
+    }
 }
+exports.connection = connection;
+exports.make_connection = make_connection;
 
-module.exports = connection;

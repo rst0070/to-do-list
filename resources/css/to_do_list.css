@@ -2,13 +2,22 @@
     border-bottom: 3px solid rgba(171, 236, 133, 0.788);
 }
 
-#addNewItem {
+#add_new_task {
     background-color: rgba( 0, 0, 0, 0.5);
     padding-top: 1px;
     padding-bottom: 1pxd;
     margin-bottom: 1px;
 
     border-radius: 5px;
+}
+#popup_add_new_task {
+    width: 100%;
+    height: 100%;
+    
+    z-index: 3;
+    background-color: aliceblue;
+    position: absolute;
+    display: none;
 }
 
 .item {

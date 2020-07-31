@@ -1,24 +1,24 @@
 const express = require('express');
-const model = require( '../model/index.js');
-
+const data = require('../model/login.js');
 const router = express.Router();
 
 /**
  * 로그인 요청 받아서 확인하는 부분
  */
-router.post('/', function(req, res){
+router.post('/', async function(req, res){
     console.log(req.session.id);
-    model.checkUser(req.body.userId, req.body.password, 
-        function(check){
-            if(check){
-                req.session.userId = req.body.userId;
-                req.session.login = true;
-                res.redirect('/');
-            }else{
-                session.login = false;
-                res.send('wrong pw or id');
-            }
-    });
+    let check = await data.login_action(req.body.group_name 
+        ,req.body.user_id, req.body.user_password);
+    
+    if(check){
+        req.session.login = true;
+        req.session.user_id = req.body.user_id;
+        req.session.group_name = req.body.group_name;
+        res.redirect('/');
+    }else{
+        req.session.login = false;
+        res.redirect('/');
+    }
 });
 
 /**
@@ -29,4 +29,4 @@ router.get('/', function(req,res){
     res.render('',{layout: 'login'});
 });
 
-module.export = router;
+module.exports = router;

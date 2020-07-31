@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 body {
-    background-image: url("../img/background.jpg");
+    /*background-image: url("../img/background.jpg");*/
+    background-color: #333;
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'Noto Sans KR', sans-serif;

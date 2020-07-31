@@ -38,31 +38,37 @@ app.use(express.static(path.join(__dirname,'resources')));
 /**
  * Routing Setting
  */
-const route = {
-    login_check: require('./routes/login_check.js'),
-    //index: require('./routes/index.js'),
-    login: require('./routes/login.js'),
-    to_do_list: require('./routes/to_do_list.js'),
-    completed_list: require('./routes/completed_list.js')
-};
-app.use(route.login_check);
-app.use('/', route.to_do_list);
-app.use('/login', route.login);
-//app.use('/completed-list', route.completed_list);
-//app.use('/list', route.list);
-//app.use('/complete', route.complete);
 
+const db_con = require('./model/db_connection.js');
+db_con.make_connection().then(()=>{
+    const route = {
+        login_check: require('./routes/login_check.js'),
+        //index: require('./routes/index.js'),
+        login: require('./routes/login.js'),
+        to_do_list: require('./routes/to_do_list.js'),
+        //completed_list: require('./routes/completed_list.js')
+    };
+    
+    app.use(route.login_check);
+    app.use('/', route.to_do_list);
+    app.use('/login', route.login);
+    //app.use('/completed-list', route.completed_list);
+    //app.use('/list', route.list);
+    //app.use('/complete', route.complete);
+    
+    
+    //error handling
+    app.use(function(err, req, res, next){
+    
+        console.log(err.message);
+    });
+    //app.use(route.Router);
+    //route.routing(app);
+    
+    
+    const port = 80;
+    app.listen(port, function(){
+        console.log('listening.. port: ',port);
+    });
 
-//error handling
-app.use(function(err, req, res, next){
-
-    console.log(err.message);
-});
-//app.use(route.Router);
-//route.routing(app);
-
-
-const port = 80;
-app.listen(port, function(){
-    console.log('listening.. port: ',port);
 });

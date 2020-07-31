@@ -1,11 +1,12 @@
-﻿.main {
+﻿@import url("global.css");
+.main {
     display: grid;
     grid-template-columns: auto;
 }
 .navbar {
     padding-top: 3px;
     padding-bottom: 2px;
-    background-color: #fe0a;
+    background-color: #fff9;
     width: 600px;
     
     margin-left: auto;
@@ -34,21 +35,19 @@
 .navbar i {
     margin: auto;
 }
-.contents div {
-    margin: auto auto 15px;
-}
-/*
-.post {
+.contents {
     width: 400px;
-    background-color: #fff;
+    background-color: #fff9;
     border-radius: 5px;
     
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 3px;
     padding-bottom: 3px;
     
     display: grid;
-    grid-template-columns: 50px 310px 40px;
 }
+/*
 .post i{
     margin-top: 20px;
     margin-bottom: 20px;
