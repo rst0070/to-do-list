@@ -5,11 +5,17 @@
         <link rel="stylesheet" href="css/main.css"/>
         <script src="https://kit.fontawesome.com/8b62767162.js" crossorigin="anonymous"></script>
         <script src="js/jquery-3.4.1.min.js"></script>
+        <script>
+            var XHTTP;
+            $(document).ready(function(){
+                XHTTP = new XMLHttpRequest();
+            });
+        </script>
     </head>
     <body>
         <div class="navbar">
-                <div><i class="far fa-calendar-plus"></i></div>
-                <div><i class="far fa-calendar-check"></i></div>
+                <div><a href="/"><i class="far fa-calendar-plus"></i></a></div>
+                <div><a href="/completed-list"><i class="far fa-calendar-check"></i></a></div>
                 <div><i class="far fa-comments"></i></div>
         </div>
         <div class="contents" >

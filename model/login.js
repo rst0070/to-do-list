@@ -18,6 +18,8 @@ async function login_action(group_name, user_id, user_pw){
         result = await db.connection.execute("select USER_NAME from USER_LIST where"+
         " USER_NAME = :id and GROUP_NAME = :gname and USER_PASSWORD = :u_pw",
         obj);
+        if(result.rows.length < 1) value = false;
+        console.log(result);
     }catch(err){
         value = false;
         console.log(err);

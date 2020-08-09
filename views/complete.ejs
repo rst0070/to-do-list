@@ -1,7 +1,13 @@
 <%- contentFor('contents') %>
-<%  if(list.length==0){ %>
-    <p>아직 달성한 목표가 없습니다.</p>
-<% }else{ %>
-<% for(let i=0; i<list.length; i++){ %>
-    <%= list[i].SUBJECT %>
-<% }} %>
+<link rel="stylesheet" href="css/completed-list.css"/>
+<script src="js/completed-list.js"></script>
+<% for(let i=0; list != null && i<list.length; i++){ %>
+    <div class="task" id="task-<%= list[i].TASK_NUM %>">
+        <p onclick="titleClickListener('<%= list[i].TASK_NUM %>')"><%= list[i].TITLE %></p>
+        <input type="button" onclick="_uncomplete('<%= list[i].TASK_NUM %>')"value="되돌리기"/>
+        <input type="button" onclick="_delete('<%= list[i].TASK_NUM %>')" value="삭제"/>
+        <div id="task-detail-<%= list[i].TASK_NUM %>" style="display: none;">
+            <p class="task-content"><%= list[i].CONTENT %></p>
+        </div>
+    </div>
+<% } %>

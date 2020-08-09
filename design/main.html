@@ -53,7 +53,7 @@
                 padding-bottom: 3px;
                 
                 display: grid;
-                grid-template-columns: 50px 310px 40px;
+                grid-template-columns: 50px 270px 40px 40px;
             }
             .post i{
                 margin-top: 20px;
@@ -70,6 +70,21 @@
             .post p:first-child {
                 float: left;
             }*/
+            #sss{
+                position: relative;
+                float: left;
+                border: solid 2px;
+                //border-radius: 50%;
+                padding: 0px;
+            }
+            #ddd{
+                margin: auto auto auto auto;
+                position: relative;
+                border-bottom: solid 2px;
+                border-right: solid 2px;
+                transform: rotate(45deg);
+                width: 30px;
+            }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
@@ -85,13 +100,16 @@
         <div class="main">
             <div><i class="fas fa-plus"></i></div>
             <div class="post">
-                <i class="fas fa-circle-notch"></i>
+                
+                <span id="sss"><span id="ddd"></span></span>
                 <p>이산수학 마무리하기</p>
+                <i class="far fa-trash-alt"></i>
                 <i class="fas fa-pencil-ruler"></i>
             </div>
             <div class="post">
                 <i class="fas fa-circle-notch"></i>
                 <p>선형대수 책 읽기</p>
+                <i class="far fa-trash-alt"></i>
                 <i class="fas fa-pencil-ruler"></i>
             </div>
         </div>

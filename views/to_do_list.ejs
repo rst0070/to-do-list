@@ -1,16 +1,37 @@
 <%- contentFor("contents") %>
 <link rel="stylesheet" href="css/to_do_list.css"/>
-<script src="js/add-new-task.js"></script>
-<div>
-    <p id="add_new_task">+ 새로운 목표 만들기</p>
-</div>
+<script>
+    var last_task_num = <%= LAST_TASK_NUM %>;
 
-<div id="popup_add_new_task">
-<p>hello</p>
+    function getI(){
+        return ++last_task_num;
+    }
+</script>
+<script src="js/add-new-task.js"></script>
+<script src="js/to-do-list.js"></script>
+
+<p id="add_new_task">+ 새로운 목표 만들기</p>
+
+<div id="contents-of-new-task" style="display: none;">
+    <form>
+        <input id="new-task-title" type="text" placeholder="TITLE"/>
+        <textarea id="new-task-content" rows="4" placeholder="CONTENT"></textarea>
+        <input id="new-task-save" type="button" value="save"/>
+    </form>
 </div>
 <% for(let i=0; list != null && i<list.length; i++){ %>
-    <div class="item">
-        <input type="checkbox" id="complete" />
-        <h1><%= list[i].TITLE %></h1>
+    <div class="task" id="task-<%= list[i].TASK_NUM %>">
+        <div>
+            <p onclick="titleClickListener('<%= list[i].TASK_NUM %>')"><%= list[i].TITLE %></p>
+            <input type="button" value="삭제" onclick="_delete(<%= list[i].TASK_NUM %>)"/>
+            <input type="button" value="완료" onclick="_complete(<%= list[i].TASK_NUM %>)"/>
+        </div>
+        <div class="task-detail" id="task-detail-<%= list[i].TASK_NUM %>" style="display: none;">
+            <input type="text" value="<%= list[i].TASK_NUM %>"/>
+            <textarea class="task-content"><%= list[i].CONTENT %></textarea>
+            <div>
+                <input type="button" value="수정" onclick="_modify(<%= list[i].TASK_NUM %>)"/>
+            </div>
+        </div>
     </div>
 <% } %>

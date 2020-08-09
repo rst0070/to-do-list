@@ -1,18 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const model = require('../model/index.js');
+const data = require('../model/completed_list.js');
 
-router.get('/', function(req, res){
+router.get('/', async function(req, res){
     try{
-        if(!req.session.login){
-            res.send("you are not logged in.");
-            throw new Error("not logged in user is requesting completed list"+
-            " ..at routes/r_complete.js");
-        }
+        let last_task_num = await data.get_last_task_num(req.session.group_name);
 
-        model.getCompletedList(req.session.userId, function(result){
-            res.render('complete', {layout : "layouts/main", list : result});
-        });
+        let list = await data.get_tasks_by_scope(req.session.group_name, 0, last_task_num);
+        
+        res.render('complete', {layout : "layouts/main", list : list});
             
     }catch(e){
 

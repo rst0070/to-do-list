@@ -1,44 +1,25 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-var router = express.Router();
-const app = express();
+const oracledb = require('oracledb');
+oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+oracledb.autoCommit = true;
+const config = {
+    user : "TO_DO_LIST",
+    password : "rambin",
+    connectionString : "localhost:1521/rst"
+}
 
-app.use(cookieParser());
-// Use the session middleware
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
- 
-// Access the session as req.session
-app.get('/', function(req, res, next) {
-  console.log(req.session.id);
-  if (req.session.views) {
-    req.session.views++
-    /*
-    res.setHeader('Content-Type', 'text/html')
-    res.write('<p>views: ' + req.session.views + '</p>')
-    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-    res.end()
-    */
-   res.redirect('/d');
-  } else {
-    req.session.views = 1
-    res.end('welcome to the session demo. refresh!')
-  }
-})
-router.get('/d', function(req, res, next) {
-    console.log(req.session.id);
-    if (req.session.views) {
-      req.session.views++
-      res.setHeader('Content-Type', 'text/html')
-      res.write('<p>views: ' + req.session.views + '</p>')
-      res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-      res.end()
-    } else {
-      req.session.views = 1
-      res.end('welcome to the session demo. refresh!')
+var connection;
+async function make_connection(){
+    try{
+        connection  = await oracledb.getConnection(config);
+        var result = await connection.execute("select TITLE from TO_DO_LIST where "+
+        "GROUP_NAME = :gname and :en >= TASK_NUM and TASK_NUM >= :sn order by TASK_NUM ASC",
+        {gname: "rambin", en: {val:0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}
+        , sn:{val: 0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}});
+
+        console.log(result);
+        //console.log(result.rows[0].LAST_TASK_NUM);
+    }catch(err){
+        console.log(err);
     }
-  });
-app.use(router);
-app.listen(80, function(){
-    console.log('ddddd');
-});
+}
+make_connection();
