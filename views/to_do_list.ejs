@@ -27,7 +27,7 @@
             <input type="button" value="완료" onclick="_complete(<%= list[i].TASK_NUM %>)"/>
         </div>
         <div class="task-detail" id="task-detail-<%= list[i].TASK_NUM %>" style="display: none;">
-            <input type="text" value="<%= list[i].TASK_NUM %>"/>
+            <input type="text" value="<%= list[i].TASK_NUM %>" text=""/>
             <textarea class="task-content"><%= list[i].CONTENT %></textarea>
             <div>
                 <input type="button" value="수정" onclick="_modify(<%= list[i].TASK_NUM %>)"/>

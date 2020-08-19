@@ -88,7 +88,20 @@
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            
+            $(document).ready(function(){
+                $("#list_select_pane ul").css('display', 'none');
+                
+                $('#list_select_pane p').on('click', (et)=>{
+                    console.log(et.target);
+                    $("#list_select_pane ul").slideToggle();
+                });
+                
+                $('.list_selector').on('click', (et)=>{
+                    let text = et.target.innerHTML;
+                    $('#list_select_pane p').text(text);
+                    console.log(text)
+                });
+            });
         </script>
     </head>
     <body>
@@ -98,6 +111,14 @@
             <div><i class="far fa-comments"></i></div>
         </div>
         <div class="main">
+            <div id="list_select_pane">
+                <p id="ddddd">work</p>
+                <ul>
+                    <li class="list_selector">work</li>
+                    <li class="list_selector">work out</li>
+                    <li class="list_selector">reading</li>
+                </ul>
+            </div>
             <div><i class="fas fa-plus"></i></div>
             <div class="post">
                 

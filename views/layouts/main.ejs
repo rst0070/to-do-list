@@ -9,7 +9,21 @@
             var XHTTP;
             $(document).ready(function(){
                 XHTTP = new XMLHttpRequest();
+                setListSelector();
             });
+
+            function setListSelector(){
+                $("#list_select_pane ul").css('display', 'none');
+                
+                $('#list_now').on('click', (et)=>{
+                    $("#list_select_pane ul").slideToggle();
+                });
+                
+                $('.list_selector').on('click', (et)=>{
+                    let text = et.target.innerHTML;
+                    $('#list_now').text(text);
+                });
+            }
         </script>
     </head>
     <body>
@@ -19,7 +33,15 @@
                 <div><i class="far fa-comments"></i></div>
         </div>
         <div class="contents" >
-            <%- contents %>
+            <div id="list_select_pane">
+                <p id="list_now">work</p>
+                <ul>
+                    <% for(int i = list_names.length; i > 0; i++){ %>
+                        <li class="list_selector"><%= list_names[i] %></li>
+                    <% } %>
+                </ul>
+            </div>
+            
         </div>
     </body>
 </html>
