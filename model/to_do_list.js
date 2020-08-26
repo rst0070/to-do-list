@@ -44,6 +44,34 @@ async function get_tasks_by_scope(group_name, start_num, end_num){
 /**
  * 
  * @param {string} group_name 
+ * @param {string} list_name 
+ * @param {boolean} completed 
+ */
+async function get_tasks(group_name, list_name, completed){
+    var result;
+    try{
+        let end_num = await get_last_task_num(group_name);
+
+        result = await db.connection.execute("select TITLE, CONTENT, TASK_NUM from TO_DO_LIST where "+
+        "COMPLETED = :ic and LIST_NAME = :lname and GROUP_NAME = :gname and :en >= TASK_NUM and TASK_NUM >= :sn order by TASK_NUM ASC",
+        {
+            ic : {val : completed ? 1 : 0, type: oracledb.NUMBER, dir: oracledb.BIND_IN},
+            gname : group_name,
+            lname : list_name,
+            en : {val: end_num, type: oracledb.NUMBER, dir: oracledb.BIND_IN},
+            sn : {val:0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}
+        });
+        result = result.rows;
+    }catch(err){
+        console.log(err);
+        result = null;
+    }finally{
+        return result;
+    }
+}
+/**
+ * 
+ * @param {string} group_name 
  * @param {string} title 
  * @param {string} content 
  */
@@ -108,7 +136,7 @@ async function trans_to_uncompleted(group_name, task_num){
 
 exports.get_last_task_num = get_last_task_num;
 exports.get_tasks_by_scope = get_tasks_by_scope;
-
+exports.get_tasks = get_tasks;
 exports.add_task_at_last = add_task_at_last;
 
 exports.delete_task_by_num = delete_task_by_num;

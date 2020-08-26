@@ -16,6 +16,12 @@ router.get('/', async function(req, res){
     }
 });
 
+router.post('/get-list', async (req, res)=>{
+    let result = await data.get_tasks(req.session.group_name, req.body.list_name, req.body.completed);
+    res.json(result);
+});
+
+
 router.post('/func/add-task', function(req, res){
     console.log(req.body.title);
     console.log(req.body.content);
