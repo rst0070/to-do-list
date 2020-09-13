@@ -1,4 +1,7 @@
 ﻿@import url("global.css");
+body {
+    font-size : 40px;
+}
 .main {
     display: grid;
     grid-template-columns: auto;
@@ -7,8 +10,8 @@
     padding-top: 3px;
     padding-bottom: 2px;
     background-color: #fff9;
-    width: 60%;
-    height: 10%;
+    width: 100%;
+    height: 30%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0px;
@@ -17,31 +20,57 @@
     display: grid;
     padding-bottom: 5px;
     grid-template-columns: auto auto auto;
+    
 }
 .navbar div{
     width: 50px;
+    min-height: 100%;
     margin: auto;
     display: grid;
     
     margin-bottom: 0px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    //padding-bottom: 10px;
+    //padding-top: 10px;
     
     border-bottom: solid 2px #fff;
 }
 .navbar div:hover {
-    border-bottom: solid 2px #000;;
+    border-bottom: solid 2px #000;
 }
-.navbar a {
+.navbar div {
     margin-left: auto;
     margin-right: auto;
 }
-.navbar a i {
+.navbar div i {
     margin-left: auto;
     margin-right: auto;
 }
-.contents {
-    width: 60%;
+#list_select_pane {
+    width: 100%;
+    background-color: #fff9;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+#list_select_pane ul {
+    margin-bottom: 20px;
+}
+#list_now {
+    text-align: center;
+}
+.list_selector {
+    text-align: center;
+}
+#make_new_list {
+    text-align: center;
+}
+#detail_new_list {
+    display: grid;
+
+}
+.task {
+    width: 100%;
     background-color: #fff9;
     border-radius: 5px;
     
@@ -50,7 +79,46 @@
     padding-top: 3px;
     padding-bottom: 3px;
     
+}
+.task_title {
+    display : grid;
+    grid-template-columns: 125px 650px 125px;
+}
+.task_title p{
+    text-align: center;
+}
+.task_detail {
     display: grid;
+}
+.task_detail textarea {
+    height : 500px;
+}
+
+#make_new_task {
+    display: grid;
+    grid-template-columns: auto;
+}
+#make_new_task p {
+    margin: 10px auto 20px auto;
+    text-align: center;
+}
+#make_new_task div {
+    margin : auto 10px auto 10px;
+    background-color: #fff9;
+    display: grid;
+    grid-template-columns: auto;
+}
+#make_new_task div button {
+    margin : auto;
+    height : 60px;
+    width : 250px;
+}
+#title_new_task {
+    height : 70px;
+    margin-bottom: 20px;
+}
+#content_new_task {
+    height : 200px;
 }
 /*
 .post i{

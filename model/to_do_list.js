@@ -1,42 +1,57 @@
 const db = require('./db_connection.js');
 const oracledb = require('oracledb');
-async function get_last_task_num(group_name){
+
+/**
+ * 
+ * @return {boolean} true : 오류없음, false : 오류발생
+ */
+async function make_new_list(group_name, list_name){
+    try{
+        await db.connection.execute(
+            'insert into LIST_NAMES(GROUP_NAME, LIST_NAME, LAST_TASK_NUM) values(:gn, :ln, :zero)',
+            {
+                gn : group_name,
+                ln : list_name,
+                zero : {val:0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}
+            });
+
+        return true;
+    }catch(err){
+        console.log(err.message);
+        return false;
+    }
+}
+
+async function get_list_names(group_name){
+    let result;
+    try{
+        result = await db.connection.execute("select LIST_NAME from LIST_NAMES where GROUP_NAME = :gn",
+        {
+            gn : group_name
+        });
+        result = result.rows;
+        console.log(result);
+    }catch(err){
+        console.log(err);
+    }finally{
+        return result;
+    }
+}
+
+async function get_last_task_num(group_name, list_name){
     var result;
     try{
          result = await db.connection.execute("select LAST_TASK_NUM "+
-        "from GROUP_LIST where GROUP_NAME = :gn",{gn: group_name});
+        "from LIST_NAMES where GROUP_NAME = :gn and LIST_NAME = :ln",
+        {
+            gn: group_name,
+            ln : list_name
+        });
         result = result.rows[0].LAST_TASK_NUM;
     }catch(err){
         console.log(err);
     }finally{
         console.log("last_task_num of ", group_name, ': ', result);
-        return result;
-    }
-}
-
-/**
- * 범위안의 task들을 배열로 가져온다.
- * @param {string} group_id 
- * @param {int} start_num start number of scope
- * @param {int} end_num 
- * @returns {array} task배열
- */
-async function get_tasks_by_scope(group_name, start_num, end_num){
-    var result;
-    try{
-        if(start_num > end_num || start_num < 0) throw new Error("Invalid scope");
-        result = await db.connection.execute("select TITLE, CONTENT, TASK_NUM from TO_DO_LIST where "+
-        "COMPLETED = :cn and GROUP_NAME = :gname and :en >= TASK_NUM and TASK_NUM >= :sn order by TASK_NUM ASC",
-        {cn:{val: 0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}
-        , gname: group_name, en: {val:end_num, type: oracledb.NUMBER, dir: oracledb.BIND_IN}
-        , sn:{val: start_num, type: oracledb.NUMBER, dir: oracledb.BIND_IN}});
-
-
-        result = result.rows;
-    }catch(err){
-        console.log(err);
-        result = null;
-    }finally{
         return result;
     }
 }
@@ -50,7 +65,7 @@ async function get_tasks_by_scope(group_name, start_num, end_num){
 async function get_tasks(group_name, list_name, completed){
     var result;
     try{
-        let end_num = await get_last_task_num(group_name);
+        let end_num = await get_last_task_num(group_name, list_name);
 
         result = await db.connection.execute("select TITLE, CONTENT, TASK_NUM from TO_DO_LIST where "+
         "COMPLETED = :ic and LIST_NAME = :lname and GROUP_NAME = :gname and :en >= TASK_NUM and TASK_NUM >= :sn order by TASK_NUM ASC",
@@ -69,26 +84,32 @@ async function get_tasks(group_name, list_name, completed){
         return result;
     }
 }
-/**
- * 
- * @param {string} group_name 
- * @param {string} title 
- * @param {string} content 
- */
-async function add_task_at_last(group_name, title, content){
-    let num = await get_last_task_num(group_name);
+
+async function make_task(group_name, list_name, title, content){
+    let num = await get_last_task_num(group_name, list_name);
     num++;
     try{
-        await db.connection.execute("insert into TO_DO_LIST (GROUP_NAME, TASK_NUM, TITLE, CONTENT)"+
-        " values ( :gn , :tn , :tt , :ct )", {gn:group_name, tn:{dir: oracledb.BIND_IN,type: oracledb.NUMBER, val:num}, tt:title, ct:content});
-        await db.connection.execute("update GROUP_LIST set LAST_TASK_NUM = :num where GROUP_NAME = :name", 
-        {num:{dir: oracledb.BIND_IN,type: oracledb.NUMBER, val: num}, name:group_name});
+        await db.connection.execute("insert into TO_DO_LIST (GROUP_NAME, LIST_NAME, TASK_NUM, TITLE, CONTENT)"+
+        " values ( :gn, :ln, :tn , :tt , :ct )", 
+        {
+            gn:group_name,
+            ln : list_name,
+            tn:{dir: oracledb.BIND_IN,type: oracledb.NUMBER, val:num},
+            tt:title,
+            ct:content
+        });
 
+        await db.connection.execute("update LIST_NAMES set LAST_TASK_NUM = :num where GROUP_NAME = :gname and LIST_NAME = :lname", 
+        {
+            num : {dir: oracledb.BIND_IN,type: oracledb.NUMBER, val: num},
+            gname : group_name,
+            lname : list_name
+        });
+        return num;
     }catch(err){
         console.log(err);
     }
 }
-
 
 /**
  * 
@@ -96,11 +117,14 @@ async function add_task_at_last(group_name, title, content){
  * @param {int} task_num 
  * @returns {boolean} true: no error, false: error
  */
-async function delete_task_by_num(group_name, task_num){
+async function delete_task(group_name, list_name, task_num){
     try{
-        await db.connection.execute("delete from TO_DO_LIST where TASK_NUM = :tn and GROUP_NAME = :gn",
-        {tn : {type: oracledb.NUMBER, val: task_num, dir: oracledb.BIND_IN},
-        gn: group_name});
+        await db.connection.execute("delete from TO_DO_LIST where TASK_NUM = :tn and GROUP_NAME = :gn and LIST_NAME = :ln",
+        {
+            tn : {type: oracledb.NUMBER, val: task_num, dir: oracledb.BIND_IN},
+            gn: group_name,
+            ln : list_name
+        });
         return true;
     }catch(err){
         console.log(err);
@@ -108,7 +132,7 @@ async function delete_task_by_num(group_name, task_num){
     }
 }
 
-async function trans_to_complete_by_num(group_name, task_num){
+async function trans_task_to_complete(group_name, list_name, task_num){
     try{
         await db.connection.execute("update TO_DO_LIST set COMPLETED = :c where TASK_NUM = :tn and GROUP_NAME = :gn"
         ,{c: {type: oracledb.NUMBER, val: 1, dir: oracledb.BIND_IN},
@@ -121,7 +145,7 @@ async function trans_to_complete_by_num(group_name, task_num){
     }
 }
 
-async function trans_to_uncompleted(group_name, task_num){
+async function trans_task_to_uncompleted(group_name, list_name, task_num){
     try{
         await db.connection.execute("update TO_DO_LIST set COMPLETED = :c where TASK_NUM = :tn and GROUP_NAME = :gn"
         ,{c: {type: oracledb.NUMBER, val: 0, dir: oracledb.BIND_IN},
@@ -134,12 +158,18 @@ async function trans_to_uncompleted(group_name, task_num){
     }
 }
 
+exports.make_new_list = make_new_list;
+
+exports.get_list_names = get_list_names;
+
 exports.get_last_task_num = get_last_task_num;
-exports.get_tasks_by_scope = get_tasks_by_scope;
+
 exports.get_tasks = get_tasks;
-exports.add_task_at_last = add_task_at_last;
 
-exports.delete_task_by_num = delete_task_by_num;
+exports.make_task = make_task;
 
-exports.trans_to_complete_by_num = trans_to_complete_by_num;
-exports.trans_to_uncompleted = trans_to_uncompleted;
+exports.delete_task = delete_task;
+
+exports.trans_task_to_complete = trans_task_to_complete;
+
+exports.trans_task_to_uncompleted = trans_task_to_uncompleted;

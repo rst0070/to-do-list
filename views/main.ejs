@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="css/main.css"/>
+        <script src="https://kit.fontawesome.com/8b62767162.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="js/task_actions.js"></script>
+        <script src="js/list_actions.js"></script>
+        <script>
+            var isCompletedList = false;
+
+
+            $(document).ready(function(){
+                setListSelector();
+                $('#make_new_list').click((event)=>{$('#detail_new_list').slideToggle();});
+
+                $('#save_new_list').click((event)=>{
+                    make_new_list($('#name_new_list').val());$('#detail_new_list').slideToggle();
+                });
+
+                $('#link_todo_list').click((event)=>{
+                    isCompletedList = false;
+                    changeListTo($("#list_now").text(), false);
+                });
+
+                $('#link_completed_list').click((event)=>{
+                    isCompletedList = true;
+                    changeListTo($("#list_now").text(), true);
+                });
+
+                changeListTo($("#list_now").text(), false);
+            });
+            
+        </script>
+    </head>
+    <body>
+        <div class="navbar">
+                <div><i id="link_todo_list" class="far fa-calendar-plus fa-2x"></i></div>
+                <div><i id="link_completed_list" class="far fa-calendar-check fa-2x"></i></div>
+                <div><i class="far fa-comments fa-2x"></i></div>
+        </div>
+        <div id="list_select_pane">
+            <p id="list_now"><%= list_names[0].LIST_NAME %></p>
+            <ul>
+                <% for(var i = list_names.length - 1; i > -1; i--){ %>
+                    <li class="list_selector"><%= list_names[i].LIST_NAME %></li>
+                <% } %>
+            </ul>
+            <p id="make_new_list">새로운 리스트 만들기</p>
+            <div id="detail_new_list" style="display: none;">
+                <input id="name_new_list" type="text" placeholder="list name"/>
+                <input id="save_new_list" type="button" value="저장"/>
+            </div>
+        </div>
+        <div id="make_new_task" style="display:none;">
+            <p onclick="$('#make_new_task div').slideToggle()">새로운 task 만들기</p>
+            <div style="display : none;">
+                <input id="title_new_task" type="text" placeholder="TITLE"/>
+                <textarea id="content_new_task" rows="10"></textarea>
+                <button onclick="make_new_task()">저장</button>
+            </div>
+        </div>
+    </body>
+</html>

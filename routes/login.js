@@ -26,7 +26,7 @@ router.post('/', async function(req, res){
  */
 router.get('/', function(req,res){
     console.log(req.session.id);
-    res.render('',{layout: 'login'});
+    res.render('login');
 });
 
 module.exports = router;
