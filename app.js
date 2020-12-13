@@ -33,6 +33,7 @@ app.use(express.static(path.join(__dirname,'resources')));
 
 const db_con = require('./model/db_connection.js');
 db_con.make_connection().then(()=>{
+/**DB 연결된 후의 작업들.. */
     const route = {
         login_check: require('./routes/login_check.js'),
         login: require('./routes/login.js'),
