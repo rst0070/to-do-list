@@ -1,25 +1,11 @@
-const oracledb = require('oracledb');
-oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
-oracledb.autoCommit = true;
-const config = {
-    user : "TO_DO_LIST",
-    password : "rambin",
-    connectionString : "localhost:1521/rst"
-}
+const sqlite = require('sqlite3').verbose();
 
 var connection;
-async function make_connection(){
-    try{
-        connection  = await oracledb.getConnection(config);
-        var result = await connection.execute("select TITLE from TO_DO_LIST where "+
-        "GROUP_NAME = :gname and :en >= TASK_NUM and TASK_NUM >= :sn order by TASK_NUM ASC",
-        {gname: "rambin", en: {val:0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}
-        , sn:{val: 0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}});
+var db = new sqlite.Database('./db/chinook.db', sqlite.OPEN_READWRITE, (err)=>{
+    if(err){console.log(err);}
+    else{console.log("connected");}
+});
 
-        console.log(result);
-        //console.log(result.rows[0].LAST_TASK_NUM);
-    }catch(err){
-        console.log(err);
-    }
-}
-make_connection();
+db.all("select * from employees", [], (err, rows)=>{
+    console.log(rows);
+});

@@ -1,0 +1,81 @@
+    
+            .main {
+                display: grid;
+                grid-template-columns: auto;
+            }
+            .navbar {
+                padding-top: 3px;
+                padding-bottom: 2px;
+                background-color: #fe0a;
+                width: 600px;
+                
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 0px;
+                margin-bottom: 20px;
+                
+                display: grid;
+                padding-bottom: 5px;
+                grid-template-columns: auto auto auto;
+            }
+            .navbar div{
+                width: 50px;
+                margin: auto;
+                display: grid;
+                
+                margin-bottom: 0px;
+                padding-bottom: 10px;
+                padding-top: 10px;
+                
+                border-bottom: solid 2px #fff;
+            }
+            .navbar div:hover {
+                border-bottom: solid 2px #000;;
+            }
+            .navbar i {
+                margin: auto;
+            }
+            .main div {
+                margin: auto auto 15px;
+            }
+            .post {
+                width: 400px;
+                background-color: #fff;
+                border-radius: 5px;
+                
+                padding-top: 3px;
+                padding-bottom: 3px;
+                
+                display: grid;
+                grid-template-columns: 50px 270px 40px 40px;
+            }
+            .post i{
+                margin-top: 20px;
+                margin-bottom: 20px;
+                margin-left: 10px;
+                margin-right: 15px;
+                float: left;
+            }
+            
+            .post i:hover {
+                
+            }
+            /*
+            .post p:first-child {
+                float: left;
+            }*/
+            #sss{
+                position: relative;
+                float: left;
+                border: solid 2px;
+                //border-radius: 50%;
+                padding: 0px;
+            }
+            #ddd{
+                margin: auto auto auto auto;
+                position: relative;
+                border-bottom: solid 2px;
+                border-right: solid 2px;
+                transform: rotate(45deg);
+                width: 30px;
+            }
