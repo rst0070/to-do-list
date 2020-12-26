@@ -7,7 +7,8 @@
     "start": "node app",
     "design-test": "node design",
     "install":"npm install",
-    "build":"babel design/js -d dist"
+    "build":"babel design/js -d dist",
+    "db":"node db/sqlmanager"
   },
   "description": "RamBin_ToDoList",
   "author": {
@@ -24,6 +25,9 @@
     "express-session": "^1.17.0",
     "node-schedule": "^1.3.2",
     "sqlite3": "5.0.0",
+    "prompt-sync":"4.2.0"    
+  },
+  "devDependencies":{
     "@babel/core":"^7.12.10",
     "@babel/cli":"^7.12.10",
     "@babel/preset-react":"^7.9.0"

@@ -1,4 +1,4 @@
-const db = require('./db_connection.js');
+const db = require('./db_connection.js').db;
 console.log("----------------------------------------------------");
 console.log(db);
 /**
@@ -9,24 +9,16 @@ console.log(db);
  * @returns {boolean} true: login, false: login error
  */
 async function login_action(group_name, user_id, user_pw){
-    var result;
-    var value = true;
-    try{
-        let obj = {
-            id : user_id, gname : group_name, u_pw : user_pw
-        };
-        result = await db.connection.execute("select USER_NAME from USER_LIST where"+
-        " USER_NAME = :id and GROUP_NAME = :gname and USER_PASSWORD = :u_pw",
-        obj);
-        if(result.rows.length < 1) value = false;
-        console.log(result);
-    }catch(err){
-        value = false;
-        console.log(err);
-    }finally{
-        return value;
-    }
     
+    let obj = {
+        id : user_id, gname : group_name, u_pw : user_pw
+    };
+    db.all("select mem_name from mems where mem_name = $mname and group_name = $gname and password = $pw",
+            obj, (err, rows)=>{
+                if(err) return false;
+                if(rows.length < 1) return false;
+                else    return true;
+            });
 }
 
 async function login_check(){

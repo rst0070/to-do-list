@@ -1,59 +1,32 @@
-const db = require('./db_connection.js');
+const db = require('./db_connection.js').db;
 const oracledb = require('oracledb');
 
 /**
  * 
  * @return {boolean} true : 오류없음, false : 오류발생
  */
-async function make_new_list(group_name, list_name){
-    try{
-        await db.connection.execute(
-            'insert into LIST_NAMES(GROUP_NAME, LIST_NAME, LAST_TASK_NUM) values(:gn, :ln, :zero)',
-            {
-                gn : group_name,
-                ln : list_name,
-                zero : {val:0, type: oracledb.NUMBER, dir: oracledb.BIND_IN}
+function make_new_list(group_name, list_name, next){
+    let ft = this;
+    db.all("insert into lists(list_name, group_name, last_task_num) values($lname, $gname, 0)",
+        {$lname : list_name, $gname: group_name}, (err, rows)=>{
+            if(err) next(err);
+            else next(null);
+        });
+}
+
+/**
+ * @param {function} next : function(err, result)
+ */
+function get_list_names(group_name, next){
+
+    db.all("select list_name from lists where group_name = $gname", {$gname:group_name}, next);
+}
+
+function get_last_task_num(group_name, list_name, next){
+    db.all("select last_task_num from lists where group_name = $gname and list_name = $lname", {$gname:group_name, $lname : list_name}, 
+            (err, rows)=>{
+                
             });
-
-        return true;
-    }catch(err){
-        console.log(err.message);
-        return false;
-    }
-}
-
-async function get_list_names(group_name){
-    let result;
-    try{
-        result = await db.connection.execute("select LIST_NAME from LIST_NAMES where GROUP_NAME = :gn",
-        {
-            gn : group_name
-        });
-        result = result.rows;
-        console.log(result);
-    }catch(err){
-        console.log(err);
-    }finally{
-        return result;
-    }
-}
-
-async function get_last_task_num(group_name, list_name){
-    var result;
-    try{
-         result = await db.connection.execute("select LAST_TASK_NUM "+
-        "from LIST_NAMES where GROUP_NAME = :gn and LIST_NAME = :ln",
-        {
-            gn: group_name,
-            ln : list_name
-        });
-        result = result.rows[0].LAST_TASK_NUM;
-    }catch(err){
-        console.log(err);
-    }finally{
-        console.log("last_task_num of ", group_name, ': ', result);
-        return result;
-    }
 }
 
 /**
