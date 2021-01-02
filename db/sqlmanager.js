@@ -20,10 +20,13 @@ db.run("create table tasks(group_name text, list_name text, content text, task_n
 console.log("4");
 db.close();
 */
-//db.all("SELECT * FROM sqlite_master WHERE type='table'",(err, rows)=>{console.log(rows)})
+
 //db.all("insert into groups(group_name) values('RamBin')",(err, rows)=>{console.log(rows)});
 //db.all("insert into mems(mem_name, group_name, password) values('wonbin', 'RamBin', 'rambin')",(err, rows)=>{console.log(rows)});
-db.all("select * from mems", (err, rows)=>{
-    console.log(rows);
+//db.all("alter table tasks add column completed integer default 0", (err, rows)=>{console.log(err);});
+//db.all("SELECT * FROM sqlite_master WHERE type='table'",(err, rows)=>{console.log(rows)})
+db.all("insert into lists(group_name, list_name) values('RamBin', 'test')",(err, rows)=>{console.log(rows)});
+db.all("select * from lists ", (err, rows)=>{
+    console.log(err, rows);
 })
 //db.commit();

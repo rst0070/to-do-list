@@ -2,23 +2,23 @@ const express = require('express');
 const data = require( '../model/to_do_list.js');
 const router = express.Router();
 
-router.get('/', async function(req, res){
-    try{
-        let names = await data.get_list_names(req.session.group_name);
-        res.render('main', {list_names : names});
-        
-    }catch(e){
-        console.log(e.message);
-    }
+router.get('/', (req, res)=>{
+    data.get_list_names(req.session.group_name, (err, rows)=>{
+        if(err){    console.log(err);   return;}
+        console.log(rows);
+        res.render('main',{lists:rows});
+    })
 });
 
 router.post('/get-list', async (req, res)=>{
-    let list = await data.get_tasks(req.session.group_name, req.body.list_name, req.body.completed == 'true');
-    console.log(list);
-    res.json(list);
+    data.get_tasks(req.session.group_name, req.body.list_name, req.body.completed == 'true',
+            (err, rows)=>{
+                if(err){    console.log(err);   return;}
+                res.json(list);
+            });
 });
 
-
+/*
 router.post('/func/make-task', async function(req, res){
     console.log(req.body.title);
     console.log(req.body.content);
@@ -49,5 +49,5 @@ router.post('/func/make-new-list', async (req, res)=>{
         res.sendStatus(422).end();
     }
 });
-
+*/
 module.exports = router;

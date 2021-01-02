@@ -30,33 +30,17 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(express.static(path.join(__dirname,'resources')));
 
-
-const db_con = require('./model/db_connection.js');
-db_con.make_connection().then(()=>{
-/**DB 연결된 후의 작업들.. */
-    const route = {
-        login_check: require('./routes/login_check.js'),
-        login: require('./routes/login.js'),
-        to_do_list: require('./routes/to_do_list.js')
-    };
-    
-    app.use(route.login_check);
-    app.use('/', route.to_do_list);
-    app.use('/login', route.login);
+app.use(require('./routes/login_check.js'));
+app.use('/login' ,require('./routes/login.js'));
+app.use('/',require('./routes/to_do_list.js'));
 
     
     //error handling
-    app.use(function(err, req, res, next){
-    
-        console.log(err.message);
-    });
-    
-    /*
-    const scheduler = require('./scheduler/index.js');
-    scheduler.start();*/
-    const port = 80;
-    app.listen(port, function(){
-        console.log('listening.. port: ',port);
-    });
+app.use(function(err, req, res, next){
+    console.log(err.message);
+});
 
+const port = 3000;
+app.listen(port, function(){
+    console.log('listening.. port: ',port);
 });

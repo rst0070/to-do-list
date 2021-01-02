@@ -1,6 +1,4 @@
-const db = require('./db_connection.js').db;
-console.log("----------------------------------------------------");
-console.log(db);
+const db = require('./db_connection.js');
 /**
  * 
  * @param {string} group_name 
@@ -8,22 +6,11 @@ console.log(db);
  * @param {string} user_pw 
  * @returns {boolean} true: login, false: login error
  */
-async function login_action(group_name, user_id, user_pw){
-    
-    let obj = {
-        id : user_id, gname : group_name, u_pw : user_pw
-    };
+exports.login_action = (group_name, user_id, user_pw, next)=>{
     db.all("select mem_name from mems where mem_name = $mname and group_name = $gname and password = $pw",
-            obj, (err, rows)=>{
-                if(err) return false;
-                if(rows.length < 1) return false;
-                else    return true;
+            {   $mname : user_id, $gname : group_name, $pw : user_pw}, 
+            (err, rows)=>{
+                console.log("dddddddddddddddddddddddddddddddddddddd");
+                next(err);
             });
 }
-
-async function login_check(){
-
-}
-
-exports.login_action = login_action;
-exports.login_check = login_check;

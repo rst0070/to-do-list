@@ -8,7 +8,8 @@
     "design-test": "node design",
     "install":"npm install",
     "build":"babel design/js -d dist",
-    "db":"node db/sqlmanager"
+    "db":"node db/sqlmanager",
+    "test":"node test/sess"
   },
   "description": "RamBin_ToDoList",
   "author": {
