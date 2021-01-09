@@ -7,7 +7,7 @@
     "start": "node app",
     "design-test": "node design",
     "install":"npm install",
-    "build":"babel design/js -d dist",
+    "build":"babel resources/js/src -d resources/js/bin",
     "db":"node db/sqlmanager",
     "test":"node test/sess"
   },

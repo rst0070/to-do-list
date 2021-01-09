@@ -30,10 +30,18 @@ exports.make_new_task = (group_name, list_name, content, next)=>{
     });
 }
 /**
- * @param {function} next : function(err, result)
+ * list가 한개도 없는 경우는 아직 구현 안함.
+ * @param {function} next : function(err, result) result: string 배열
  */
 exports.get_list_names = (group_name, next)=>{
-    db.all("select list_name from lists where group_name = $gname", {$gname:group_name}, next);
+    db.all("select list_name from lists where group_name = $gname", {$gname:group_name},(err, rows)=>{
+        if(err) next(err,rows);
+        else{
+            let result = new Array(rows.length);
+            for(let i=0; i < rows.length; i++) result[i] = rows[i].list_name;
+            next(null, result);
+        }
+    });
 }
 
 exports.get_last_task_num = (group_name, list_name, next)=>{

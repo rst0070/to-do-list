@@ -1,0 +1,11 @@
+#menu_container {
+    background-color: rgba(0,0,0,0.5);
+    width : 300px;
+    min-width: 300px;
+    height: 100%;
+
+    display: none;
+    position: absolute;
+    z-index: 1;
+    
+}

@@ -1,10 +1,18 @@
 <!DOCTYPE html>
+        <!-- https://blog.truthlabs.com/how-to-make-complex-icons-with-only-css-e135e6dc2c5e-->
+        <!--https://stackoverflow.com/questions/16989585/css-3-slide-in-from-left-transition-->
 <html>
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-        <!-- https://blog.truthlabs.com/how-to-make-complex-icons-with-only-css-e135e6dc2c5e-->
-        <!--https://stackoverflow.com/questions/16989585/css-3-slide-in-from-left-transition-->
+        <link rel="stylesheet" type="text/css" href="css/menu.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script>
+            const GROUP_NAME = '<%= group_name %>';
+        </script>
+        <script src="js/bin/data.js"></script>
         <style>
             .navbar{
                 width: 100%;
@@ -15,32 +23,12 @@
                 background-color: black;
                 width: 30px;
                 height: 30px;
-            }
-
-            #menu_button:hover .menu{
-                left:0;
-                transition: 1s;
-            }
-            .menu{
-                transition: 1s;
                 position: absolute;
-                background-color: black;
-                width: 400px;
-                left: -400px;
-
-                -webkit-animation: slide 0.5s forwards;
-    -webkit-animation-delay: 2s;
-    animation: slide 0.5s forwards;
-    animation-delay: 2s;
+                z-index: 2;
             }
-
-            @-webkit-keyframes slide {
-    100% { left: 0; }
-}
-
-@keyframes slide {
-    100% { left: 0; }
-}
+            #menu_container h1{
+                color: pink;
+            }
         </style>
 
     </head>
@@ -49,8 +37,12 @@
            <div id="menu_button"></div>
            <p id="list_name"><%= lists[0].list_name %></p>
        </div>
-       <div class="menu">
-
-       </div>
+       <div id="menu_container"></div>
+       <div id="list_container"></div>
+       
+        
+       <script src="js/bin/menu_controller.js"></script>
+       <script src="js/bin/list_controller.js"></script>
+       <script src="js/bin/main_page.js"></script>
     </body>
 </html>

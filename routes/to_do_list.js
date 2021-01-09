@@ -6,7 +6,7 @@ router.get('/', (req, res)=>{
     data.get_list_names(req.session.group_name, (err, rows)=>{
         if(err){    console.log(err);   return;}
         console.log(rows);
-        res.render('main',{lists:rows});
+        res.render('main',{lists:rows, group_name:req.session.group_name});
     })
 });
 
@@ -14,10 +14,20 @@ router.post('/get-list', async (req, res)=>{
     data.get_tasks(req.session.group_name, req.body.list_name, req.body.completed == 'true',
             (err, rows)=>{
                 if(err){    console.log(err);   return;}
-                res.json(list);
+                res.json(rows);
             });
 });
 
+router.post('/get-listnames', (req, res)=>{
+    data.get_list_names(req.session.group_name, (err, rows)=>{
+        if(err){console.log(err);}
+        else{
+            console.log(rows);
+            res.json(rows);
+        }
+        
+    });
+})
 /*
 router.post('/func/make-task', async function(req, res){
     console.log(req.body.title);
